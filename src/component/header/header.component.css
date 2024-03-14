@@ -1,0 +1,13 @@
+.heading {
+    text-align: center;
+    }
+    .container {
+        position: relative;
+      }
+      
+      .top-end-button {
+        position: absolute;
+        top: -10;
+        right: 0;
+      }
+      
