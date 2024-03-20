@@ -1,0 +1,29 @@
+
+<div>
+<form>
+<div class="mb-3" >
+    <h3>Login here!</h3>
+<label for="userType" class="user" style="padding-left: 10px;">Type Of User : </label>
+<select id="userType" name="userType">
+<option value="Admin">Admin</option>
+<option value="User">User</option> 
+</select>
+</div>
+<div class="mb-3">
+<label for="email" class="form-label">Email address</label>
+<input type="email" class="form-control" id="customerEmail" name="customerEmail" placeholder="Enter your email" [(ngModel)]="loginCustomer.email">
+</div>
+<div class="mb-3">
+<label for="password" class="form-label">Password</label>
+<input type="password" class="form-control" id="customerPassword" name="customerPassword" placeholder="Enter your password" [(ngModel)]="loginCustomer.password">
+</div>
+
+
+
+
+<div class="text-center">
+<button type="submit" class="btn btn-info" (click)="login()">Login</button>
+</div>
+</form>
+
+</div>

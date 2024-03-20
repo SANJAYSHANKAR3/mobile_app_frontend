@@ -1,30 +1,161 @@
-
-<br>
 <div class="container">
-    <h3 *ngIf="products.length <1" class="text-info"> No Products Found. </h3>
-    <table *ngIf="products.length >0" class="table table-striped">
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>brandName</th>
-          <th>modelName</th>
-          <th>Price</th>
-          <th>color</th>
-          <th>quantity</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor='let product of products; let i=index'>
-          <td>{{product.id}}</td>
-          <td>{{product.brandName}}</td>
-          <td>{{product.modelName}}</td>
-          <td>{{product.price}}</td>
-          <td>{{product.color}}</td>
-          <td>{{product.quantity}}</td>
-          <td><button>Buy</button></td>
-          <td><button>Add to Cart</button></td>
+    <h3 *ngIf="filteredProducts.length < 1" class="text-info"> No Products Found. </h3>
+  <div class="buttons">
+ 
+    <div *ngIf="filteredProducts.length > 0">
+        <div class="btn-group mt-3" role="group" aria-label="Sort By Name">
+            <button type="button" class="btn btn-primary" id="sortName1" (click)="sortByName('asc')">
+                Sort by Name (Asc) <span *ngIf="sortByNameOrder=== 'asc'" class="glyphicon glyphicon-chevron-up"></span>
+            </button>
+            <button type="button" class="btn btn-primary" id="sortName2"(click)="sortByName('desc')">
+                Sort by Name (Desc) <span *ngIf="sortByNameOrder === 'desc'" class="glyphicon glyphicon-chevron-down"></span>
+            </button>
+        </div>
+      
 
-        </tr>
-      </tbody>
-    </table>
+
+    <div class="mt-3"></div> <!-- Add an empty div with margin for spacing -->
+  
+  
+        <div class="btn-group" role="group" aria-label="Sort By Price">
+            <button type="button" class="btn btn-primary" id="sortPrice1" (click)="sortByPrice('asc')" >
+                Sort by Price (Asc) <span *ngIf="sortBy === 'asc'" class="glyphicon glyphicon-chevron-up"></span>
+            </button>
+            <button type="button" class="btn btn-primary" id="sortPrice2" (click)="sortByPrice('desc')">
+                Sort by Price (Desc) <span *ngIf="sortBy === 'desc'" class="glyphicon glyphicon-chevron-down"></span>
+            </button>
+        </div>
+    
+  
+        <div class="mt-3"></div> <!-- Add an empty div with margin for spacing -->
+        <input type="text" class="form-control mt-3" placeholder="Filter by Brand Name" [(ngModel)]="filterBrand" (input)="applyFilter()">
+
+      </div>
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <!-- <th>id</th> -->
+                    <th>Brand Name</th>
+                    <th>Model Name</th>
+                    <th>
+                        Price
+                        <span *ngIf="sortBy === 'asc'" class="glyphicon glyphicon-chevron-up"></span>
+                        <span *ngIf="sortBy === 'desc'" class="glyphicon glyphicon-chevron-down"></span>
+                    </th>
+                    <th>Color</th>
+                  
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor='let product of filteredProducts; let i=index'>
+                    <!-- <td>{{product.id}}</td> -->
+                    <td>{{product.brandName}}</td>
+                    <td>{{product.modelName}}</td>
+                    <td>{{product.price | currency:'USD':'symbol':'1.2-2'}}</td>
+                    <td>{{product.color}}</td>
+                    
+                    <td>
+                        
+                        <button class="btn btn-primary" (click)="addToProduct(product)">Add to Cart</button>
+                    </td>
+                   
+                    <td><button class="btn btn-success" (click)="showProduct(product)">View Details</button></td>
+                    
+                </tr>  
+              </tbody>
+            </table>
+           
+            <div *ngIf="cartProducts.length > 0">
+              <h3 class="heading">Product Details</h3>
+              <table class="table table-striped mt-3">
+                <thead>
+                  <tr>
+                      <th>Productid</th>
+                      <th>brandName</th>
+                      <th>modelName</th>
+                      <th>Price</th>
+                      <th>color</th>
+                      <th>Description</th>
+                      
+                  </tr> 
+                </thead>
+                <tbody>
+                  
+                <tr *ngIf="selectedProduct">
+                  
+                    <td>{{ selectedProduct.id }}</td>
+                    <td>{{ selectedProduct.brandName}}</td>
+                    <td>{{ selectedProduct.modelName}}</td>
+                    <td>{{selectedProduct.price | currency:'USD':'symbol':'1.2-2'}}</td>
+                    <td>{{selectedProduct.color}}</td>
+                    <td>Size is portable and easy to carry !!</td>
+  
+                  </tr>
+                    
+                     
+                  </tbody> 
+              </table>
+              <button class="btn btn-primary" (click)="addToCart(selectedProduct)">Add to Cart</button> 
+            </div>
+                   
+  
+  
+  
+                    <div *ngIf="cartProducts.length > 0">
+                      <h3 class="heading">CART</h3>
+                    <table class="table table-striped mt-3">
+                      <thead>
+                        <tr>
+                            <th>Productid</th>
+                            <th>brandName</th>
+                            <th>modelName</th>
+                            <th>Price</th>
+                            <th>color</th>
+                            <th>quantity</th>
+                        </tr> 
+                      </thead>
+                      <tbody>
+                        
+                     
+                      <tr *ngFor='let cartproducts of cartProducts; let i=index'>
+                    
+                        <td>{{cartproducts.id}}</td>
+                        <td>{{cartproducts.brandName}}</td>
+                        <td>{{cartproducts.modelName}}</td>
+                        <td>{{cartproducts.price}}</td>
+                        <td>{{cartproducts.color}}</td>
+                        <td>
+                          <button class="btn btn-primary" (click)="decreaseQuantity(cartproducts)">-</button>
+                          {{ cartproducts.quantity}}
+                          <button class="btn btn-primary" (click)="increaseQuantity(cartproducts)" [disabled]="cartproducts.quantity === 5">+</button>
+                          <span *ngIf="cartproducts.quantity === 5" class="text-danger">Quantity limit reached</span>
+                      </td>
+                      <td>
+                        <button  class="btn btn-danger"(click)="removeFromCart(cartproducts)">Remove</button>
+                    </td></tr>
+                      
+                        
+                         
+  
+                      </tbody>
+                   
+                    </table>
+                  </div>
+                    <div *ngIf="cartProducts.length > 0">
+                     
+                    
+                      <h3 class="heading">Total Price: {{ totalPrice | currency:'USD':'symbol':'1.2-2' }}</h3>
+                      
+                      <hr>
+                      <div class="heading">
+                      <button class="btn btn-success" >Buy</button>
+                    </div>
+                    </div>
+                  
+                    
+            
+            
+     
+    </div>
   </div>

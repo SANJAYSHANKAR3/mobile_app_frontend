@@ -1,0 +1,53 @@
+<div class="registration-form">
+    <h3>Register here!</h3>
+    <form (ngSubmit)="createCustomer()" #userForm="ngForm">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" [(ngModel)]="newCustomer.name" #nameRef="ngModel"
+                class="form-control" pattern="[A-Za-z ]{3,}" required>
+            <div *ngIf="nameRef.invalid && (nameRef.touched || nameRef.dirty)" class="text-danger">
+                <p *ngIf="nameRef.errors?.['required']">Name is required.</p>
+                <p *ngIf="nameRef.errors?.['pattern']">Enter a valid name (Only characters).</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" [(ngModel)]="newCustomer.email" #emailRef="ngModel"
+                class="form-control" required pattern="^[a-z0-9._%+-]+@gmail\.com$"
+                title="Please enter a valid email address with @gmail.com extension">
+            <div *ngIf="emailRef.invalid && (emailRef.touched || emailRef.dirty)" class="text-danger">
+                <p *ngIf="emailRef.errors?.['required']">Email is required.</p>
+                <p *ngIf="emailRef.errors?.['pattern']">Please enter a valid email address.</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" [(ngModel)]="newCustomer.password" #passwordRef="ngModel"
+                class="form-control" required pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,16}$">
+            <div *ngIf="passwordRef.invalid && (passwordRef.touched || passwordRef.dirty)" class="text-danger">
+                <p *ngIf="passwordRef.errors?.['required']">Password is required.</p>
+                <p *ngIf="passwordRef.errors?.['pattern']">Password must contain at least one capital letter,
+                    one number, one special character, and be between 6 and 16 characters long.</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" [(ngModel)]="newCustomer.gender" class="form-control" required>
+                <option value="" disabled selected>Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+            <div *ngIf="userForm.controls['gender']?.invalid && userForm.controls['gender']?.touched" class="text-danger">
+                <p>Gender is required.</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-success" id="btn" value="Submit" [disabled]="!userForm.valid">
+        </div>
+    </form>
+</div>
