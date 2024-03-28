@@ -1,0 +1,35 @@
+<div class="title">
+    <h1>Mobile Store Payment</h1>
+</div>
+<div class="card">
+    <div class="cardhead">
+        <h1>Debit card</h1>
+    </div>
+    <h3>Total Price: {{ Totalprice}}</h3>
+        <div class="form-container">
+            <form>
+                <div class="form-group">
+                    <label for="cardHolder">Card Holder Name</label>
+                    <input placeholder="Name on Card" type="text" id="cardHolder" name="cardHolder" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cardNumber">Card Number</label>
+                    <input type="tel" pattern="[0-9\s]{13,19}" 
+                           autocomplete="cc-number" maxlength="19" 
+                           placeholder="xxxx-xxxx-xxxx-xxxx" id="cardNumber" name="cardNumber" required>
+                </div>
+                <div class="cvv-group">
+                <div class="nearby">
+                    <label for="cvv">CVV</label>
+                    <input placeholder="CVV" type="text" id="cvv" name="cvv" required>&nbsp;
+                </div>
+                <div class="form-group">
+                    <label for="expiryDate">Expiry Date</label>
+                    <input type="month" min="2024-04" value="2030-04"  id="expiryDate" name="expiryDate" required>                        
+                </div>
+                </div>
+                <button type="submit" >Submit</button>
+            </form>
+        </div>
+    </div>    

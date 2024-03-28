@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common'
 import { ProductService } from '../../app/service/product.service';
 import { Product } from '../../model/product';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { DataService } from '../../app/service/data.service';
 @Component({
   selector: 'app-product-list',
   standalone: true,
@@ -22,9 +24,11 @@ export class ProductListComponent {
   totalPrice: number = 0;
   pageNumber = 1;
   pageSize = 10;
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService, private router:Router,private dataservice: DataService) {
       this.loadAllProducts();
+      
   }
+ 
   ngOnInit() {
     this.loadAllProducts();
    // window.addEventListener('scroll', this.onScroll.bind(this));
@@ -114,5 +118,10 @@ decreaseQuantity(product: Product): void {
 removeFromCart(product: Product): void {
   this.cartProducts = this.cartProducts.filter(item => item !== product);
   this.calculateTotalPrice(); // Update total price when removing a product from the cart
+}
+navigateToPayment(){
+  this.dataservice.myVariable=this.totalPrice;
+  this.router.navigateByUrl("/payment");
+  return this.dataservice.myVariable;
 }
 }

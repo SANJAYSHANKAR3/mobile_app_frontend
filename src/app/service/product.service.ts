@@ -10,14 +10,14 @@ export class ProductService {
   constructor(private http: HttpClient) { }
   public getAllProducts(): Observable<any> {
     return this.http.get<Product[]>(
-      "http://localhost:8091/product");
+      "http://localhost:8091/get/product");
     }
     public getProductsByPage(pageNumber: number, pageSize: number): Observable<Product[]> {
       const startIndex = (pageNumber - 1) * pageSize;
-      return this.http.get<Product[]>(`http://localhost:8091/product?_start=${0}&_limit=${10}`);
+      return this.http.get<Product[]>(`http://localhost:8091/get/product?_start=${0}&_limit=${10}`);
     }
     public getAllProductsSortedByPrice(order: string): Observable<Product[]> {
-      return this.http.get<Product[]>("http://localhost:8091/product")
+      return this.http.get<Product[]>("http://localhost:8091/get/product")
         .pipe(
           map((products: Product[]) => {
             return products.slice().sort((a, b) => {
